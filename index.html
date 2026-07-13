@@ -137,7 +137,7 @@
     <section id="intro" class="max-w-6xl mx-auto px-4 pt-8 pb-12 sm:pt-12 sm:pb-16 md:py-24 flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div class="flex-1 space-y-5 sm:space-y-6 text-center md:text-left w-full">
             <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 dark:bg-blue-950/50 text-brand-accent dark:text-blue-400 rounded-full text-xs font-semibold tracking-wide">
-                <span>🛡️</span> 나만의 웹툰 추천
+                <span>🛡️</span> 광고 ZERO 청정구역
             </div>
             
             <!-- 캐치프레이즈 (실시간 타이핑 효과 적용) -->
@@ -153,7 +153,7 @@
                 </div>
                 <h3 class="text-xs font-bold text-brand-accent dark:text-blue-400 mb-1 uppercase tracking-widest">나의 고백 💬</h3>
                 <p class="text-[13px] sm:text-sm leading-relaxed text-brand-muted dark:text-slate-300 font-medium">
-                    "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
+                    "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 광고 없이, 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
                 </p>
             </div>
 
@@ -241,7 +241,7 @@
                 <p class="text-xs text-brand-muted dark:text-slate-400">장르 탭을 눌러 평점과 생생한 한줄평을 모아 보세요.</p>
             </div>
             
-            <!-- 장르 필터 탭 (모바일에서 좌우 스크롤 가능하도록 터치 스와이프 슬라이더 최적화) -->
+            <!-- 장르 필터 탭 (모바일 스와이프 스크롤 지원) -->
             <div class="flex overflow-x-auto pb-1 sm:pb-0 gap-2 scrollbar-none snap-x -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
                 <button onclick="filterGenre('all')" id="btn-genre-all" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition">전체보기</button>
                 <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-brand-text dark:text-slate-300 border border-brand-border dark:border-slate-800 hover:bg-brand-bg dark:hover:bg-slate-800 transition">🗡️ 판타지/액션</button>
@@ -256,16 +256,34 @@
         </div>
     </section>
 
-    <!-- 5. 관리자 전용 웹툰 등록 폼 (평소에는 'hidden' 처리되어 일반 방문자에게 완벽 차단됨) -->
+    <!-- 5. 관리자 수신함 (📬 방문자 우체통 현황 - 오직 비밀번호 입력하여 로그인했을 때만 완전 렌더링됨) -->
+    <section id="admin-mailbox-section" class="hidden bg-blue-50/50 dark:bg-slate-900/40 border-t border-brand-border dark:border-slate-800 py-12 sm:py-16 transition-all duration-300">
+        <div class="max-w-4xl mx-auto px-4 space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-3xl">📬</span>
+                <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">들어온 추천 우체통 내역 (관리자 모드)</h2>
+                <p class="text-xs text-brand-muted dark:text-slate-400 max-w-md mx-auto">
+                    방문자들이 남긴 따뜻한 인생 웹툰 추천 목록입니다. 승인 버튼을 누르면 즉시 메인 서재에 한줄평과 함께 등재됩니다!
+                </p>
+            </div>
+
+            <!-- 우체통 수신 목록 컨테이너 -->
+            <div id="mailbox-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 들어온 편지가 비어있을 때의 기본 스켈레톤 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 관리자 전용 직접 웹툰 등록 폼 (비밀번호 입력하여 승인되면 활성화) -->
     <section id="add-section" class="hidden bg-slate-100 dark:bg-slate-900/80 border-t border-brand-border dark:border-slate-800 py-12 sm:py-16 transition-all duration-300">
         <div class="max-w-2xl mx-auto px-4 text-center space-y-4 sm:space-y-6">
             <span class="text-2xl sm:text-3xl">📝</span>
-            <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">새 작품 아지트에 기록하기 (관리자용)</h2>
-            <p class="text-xs text-brand-muted dark:text-slate-450 leading-relaxed max-w-md mx-auto px-2">
-                현재 관리자 자격으로 로그인하셨습니다. 이곳에 입력하신 새로운 인생 웹툰은 실시간으로 저장되며, 새로고침해도 안전하게 영구 저장됩니다.
+            <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">직접 새 작품 서재에 기록하기</h2>
+            <p class="text-xs text-brand-muted dark:text-slate-400 max-w-md mx-auto">
+                현재 관리자 자격으로 직접 기록 중이십니다. 이곳에 작성한 내용은 즉시 서재에 보존됩니다.
             </p>
 
-            <!-- 사용자 참여 양식 -->
+            <!-- 새 작품 등록 폼 -->
             <form onsubmit="handleNewWebtoonSubmit(event)" class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 text-left shadow-lg space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -328,7 +346,64 @@
         </div>
     </section>
 
-    <!-- 6. 비밀 로그인 팝업 모달창 (모바일 터치 및 화면 너비 맞춤) -->
+    <!-- 7. 일반 방문객용 추천 우체통 섹션 (언제든 열려있으며, 복잡하지 않고 아기자기한 디자인) -->
+    <section id="guest-mailbox-section" class="bg-white dark:bg-slate-900 border-t border-brand-border dark:border-slate-850 py-12 sm:py-16 transition-colors duration-300">
+        <div class="max-w-2xl mx-auto px-4 text-center space-y-4 sm:space-y-6">
+            <span class="text-3xl">📮</span>
+            <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">주인장에게 인생 웹툰 배달하기</h2>
+            <p class="text-xs text-brand-muted dark:text-slate-400 max-w-md mx-auto">
+                광고 없이 오직 '진짜 재미'만 수다 떠는 아지트입니다. 추천해 주신 보석 같은 추천작은 주인장이 직접 밤새 정주행한 뒤 정식으로 서재에 보존해 드려요!
+            </p>
+
+            <form onsubmit="handleGuestRecommendationSubmit(event)" class="bg-brand-bg dark:bg-slate-950/60 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-850 text-left space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-name">필명 또는 닉네임</label>
+                        <input type="text" id="guest-name" required placeholder="예: 수수께끼 친구" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-title">추천하고 싶은 웹툰 제목</label>
+                        <input type="text" id="guest-title" required placeholder="예: 가담항설, 아기집사" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-genre">장르 카테고리</label>
+                        <select id="guest-genre" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                            <option value="fantasy">🗡️ 판타지/액션</option>
+                            <option value="romance">🏫 로맨스/일상</option>
+                            <option value="thriller">🧠 개그/스릴러</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-rating">체감 솔직 평점</label>
+                        <select id="guest-rating" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                            <option value="⭐⭐⭐⭐⭐ (5.0)">⭐⭐⭐⭐⭐ (5.0)</option>
+                            <option value="⭐⭐⭐⭐⭐ (4.8)">⭐⭐⭐⭐⭐ (4.8)</option>
+                            <option value="⭐⭐⭐⭐ (4.0)">⭐⭐⭐⭐ (4.0)</option>
+                            <option value="⭐⭐⭐ (3.0)">⭐⭐⭐ (3.0)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-tags">키워드 해시태그</label>
+                        <input type="text" id="guest-tags" placeholder="예: 스토리최강, 눈물샘자극" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent text-center">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="guest-opinion">이유 있는 한줄평 추천사</label>
+                    <textarea id="guest-opinion" rows="3" required placeholder="왜 이 웹툰이 나만의 숨은 우주 명작인가요? 날것의 감동을 그대로 전해 주세요!" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-white dark:bg-slate-900 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
+                </div>
+                
+                <button type="submit" class="w-full py-3.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl shadow-lg transition">
+                    📬 주인장에게 편지 띄우기
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 8. 비밀 로그인 팝업 모달창 (모바일 터치 및 화면 너비 맞춤) -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 w-full max-w-sm shadow-2xl space-y-4">
             <div class="flex justify-between items-center">
@@ -355,13 +430,32 @@
         </div>
     </div>
 
+    <!-- 9. 커스텀 안전 모달 대화창 (기본 confirm 경고창 완벽 대체용) -->
+    <div id="confirm-modal" class="fixed inset-0 bg-black/55 backdrop-blur-sm z-[60] flex items-center justify-center hidden p-4">
+        <div class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 w-full max-w-sm shadow-2xl text-center space-y-4">
+            <span class="text-3xl">⚠️</span>
+            <h3 class="text-sm font-bold text-brand-text dark:text-white">기록 삭제 경고</h3>
+            <p id="confirm-modal-text" class="text-xs text-brand-muted dark:text-slate-300 leading-relaxed">
+                이 소중한 웹툰 추천을 정말로 내 서재에서 영구히 내리시겠습니까?
+            </p>
+            <div class="flex gap-2">
+                <button id="confirm-cancel-btn" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition">
+                    보존하기
+                </button>
+                <button id="confirm-agree-btn" class="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg shadow-sm transition">
+                    삭제하기
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 임시 알림창 토스트 알림을 위한 마크업 -->
-    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-brand-text dark:bg-slate-800 text-white px-4 py-3 rounded-xl border border-brand-border dark:border-slate-700 shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none text-center sm:text-left">
+    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-brand-text dark:bg-slate-850 text-white px-4 py-3 rounded-xl border border-brand-border dark:border-slate-750 shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none text-center sm:text-left">
         성공적으로 전송되었습니다!
     </div>
 
-    <!-- 7. 푸터 -->
-    <footer class="bg-white dark:bg-slate-900 border-t border-brand-border dark:border-slate-800 py-8 text-center text-xs text-brand-muted dark:text-slate-400 space-y-2 transition-colors duration-300">
+    <!-- 10. 푸터 -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-brand-border dark:border-slate-800 py-8 text-center text-xs text-brand-muted dark:text-slate-400 space-y-2 transition-colors duration-300 font-medium">
         <div class="flex justify-center items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
             <span class="font-bold text-brand-text dark:text-white">광고 ZERO 100% 솔직 청정 구역</span>
@@ -455,6 +549,7 @@
         ];
 
         let customWebtoons = [];
+        let visitorSuggestions = []; // 일반 방문객들이 우체통에 넣어둔 추천작 데이터 목록
         let isAdminMode = false;
         let currentGenreFilter = 'all';
 
@@ -501,13 +596,20 @@
             }
         }
 
-        // 3. 웹툰 데이터 로드 및 렌더링
-        function loadWebtoons() {
-            const stored = localStorage.getItem('my_webtoon_shelf');
-            if (stored) {
-                customWebtoons = JSON.parse(stored);
+        // 3. 웹툰 데이터 및 우체통 로드와 렌더링
+        function loadAllData() {
+            // 공식 등록된 작품 리스트 로드
+            const storedWebtoons = localStorage.getItem('my_webtoon_shelf');
+            if (storedWebtoons) {
+                customWebtoons = JSON.parse(storedWebtoons);
+            }
+            // 방문자 우체통 편지함 로드
+            const storedMailbox = localStorage.getItem('visitor_suggestions_shelf');
+            if (storedMailbox) {
+                visitorSuggestions = JSON.parse(storedMailbox);
             }
             renderWebtoons();
+            renderMailbox();
         }
 
         function renderWebtoons() {
@@ -542,8 +644,9 @@
                     `;
                 }
 
+                // 오직 관리자이고 커스텀(직접 등록 또는 승인)된 작품일 때만 삭제 버튼 활성화
                 const deleteBtnHTML = (isAdminMode && item.isCustom) 
-                    ? `<button onclick="deleteWebtoon('${item.id}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 text-[10px] font-bold rounded-lg transition z-10">🗑️ 삭제</button>`
+                    ? `<button onclick="confirmDeleteWebtoon('${item.id}', '${item.title}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 text-[10px] font-bold rounded-lg transition z-10">🗑️ 삭제</button>`
                     : ``;
 
                 const tagsHTML = item.tags ? item.tags.map(t => t.startsWith('#') ? t : '#' + t).join(' ') : '';
@@ -572,6 +675,57 @@
                     </div>
                 `;
                 grid.appendChild(card);
+            });
+        }
+
+        function renderMailbox() {
+            const container = document.getElementById('mailbox-container');
+            container.innerHTML = '';
+
+            if (visitorSuggestions.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 bg-white dark:bg-slate-900 border border-brand-border dark:border-slate-800 p-8 rounded-2xl text-center space-y-2">
+                        <span class="text-2xl">💤</span>
+                        <p class="text-xs text-brand-muted dark:text-slate-400">현재 도착한 추천 우체통이 비어있습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            visitorSuggestions.forEach(item => {
+                const mailboxCard = document.createElement('div');
+                mailboxCard.className = `bg-white dark:bg-slate-900 p-4 rounded-xl border border-brand-border dark:border-slate-800 flex flex-col justify-between space-y-3 shadow-sm`;
+                
+                let genreText = '기타';
+                if (item.genre === 'fantasy') genreText = '🛡️ 판타지/액션';
+                else if (item.genre === 'romance') genreText = '🏫 로맨스/일상';
+                else if (item.genre === 'thriller') genreText = '🧠 개그/스릴러';
+
+                const tagsHTML = item.tags ? item.tags.map(t => t.startsWith('#') ? t : '#' + t).join(' ') : '';
+
+                mailboxCard.innerHTML = `
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2 py-0.5 bg-blue-50 dark:bg-blue-950/40 text-brand-accent dark:text-blue-400 rounded-md font-bold text-[9px]">${genreText}</span>
+                            <span class="text-[10px] text-brand-muted dark:text-slate-450 font-semibold">추천인: ${item.guestName}</span>
+                        </div>
+                        <h4 class="font-bold text-xs text-brand-text dark:text-white">${item.title}</h4>
+                        <div class="text-amber-500 text-[10px] font-bold">${item.rating}</div>
+                        <p class="text-[11px] text-brand-muted dark:text-slate-350 leading-relaxed bg-brand-bg dark:bg-slate-950/40 p-2.5 rounded-lg border border-brand-border dark:border-slate-850">
+                            ${item.opinion}
+                        </p>
+                        <div class="text-[9px] text-brand-muted dark:text-slate-400">${tagsHTML}</div>
+                    </div>
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="approveSuggestion('${item.id}')" class="flex-1 py-1.5 bg-brand-accent hover:bg-brand-accentHover text-white font-bold text-[10px] rounded-lg shadow-sm transition">
+                            ✅ 서재에 등록
+                        </button>
+                        <button onclick="rejectSuggestion('${item.id}')" class="px-3 py-1.5 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-950/30 font-bold text-[10px] rounded-lg transition">
+                            🗑️ 거절
+                        </button>
+                    </div>
+                `;
+                container.appendChild(mailboxCard);
             });
         }
 
@@ -611,6 +765,7 @@
                 showToast("🔓 관리자 권한이 성공적으로 활성화되었습니다!");
                 updateAdminUIVisibility();
                 renderWebtoons();
+                renderMailbox();
             } else {
                 showToast("❌ 비밀번호가 올바르지 않습니다. 다시 입력해 주세요.");
             }
@@ -625,21 +780,114 @@
 
         function updateAdminUIVisibility() {
             const addSection = document.getElementById('add-section');
+            const mailboxSection = document.getElementById('admin-mailbox-section');
             const adminBadge = document.getElementById('admin-badge-container');
             const lockIcon = document.getElementById('btn-secret-lock');
 
             if (isAdminMode) {
                 addSection.classList.remove('hidden');
+                mailboxSection.classList.remove('hidden');
                 adminBadge.classList.remove('hidden');
                 lockIcon.classList.add('hidden');
             } else {
                 addSection.classList.add('hidden');
+                mailboxSection.classList.add('hidden');
                 adminBadge.classList.add('hidden');
                 lockIcon.classList.remove('hidden');
             }
         }
 
-        // 6. 신규 웹툰 등록 기능
+        // 6. 방문자용 추천 우체통 등록 로직
+        function handleGuestRecommendationSubmit(e) {
+            e.preventDefault();
+
+            const guestName = document.getElementById('guest-name').value.trim();
+            const title = document.getElementById('guest-title').value.trim();
+            const genre = document.getElementById('guest-genre').value;
+            const rating = document.getElementById('guest-rating').value;
+            const rawTags = document.getElementById('guest-tags').value.trim();
+            const opinion = document.getElementById('guest-opinion').value.trim();
+
+            const tags = rawTags ? rawTags.split(',').map(tag => tag.trim()) : [];
+
+            const newSuggestion = {
+                id: 'guest-' + Date.now(),
+                guestName,
+                title,
+                genre,
+                rating,
+                tags,
+                opinion
+            };
+
+            visitorSuggestions.push(newSuggestion);
+            localStorage.setItem('visitor_suggestions_shelf', JSON.stringify(visitorSuggestions));
+
+            // 입력 폼 비우기
+            document.getElementById('guest-name').value = '';
+            document.getElementById('guest-title').value = '';
+            document.getElementById('guest-tags').value = '';
+            document.getElementById('guest-opinion').value = '';
+
+            // 수신 대기 상태 갱신
+            if (isAdminMode) {
+                renderMailbox();
+            }
+
+            showToast(`💌 [${title}] 추천 편지가 우체통에 도착했습니다! 관리자 승인 후 서재에 노출됩니다.`);
+        }
+
+        // 7. 관리자의 승인 및 반려 기능
+        function approveSuggestion(id) {
+            const foundIndex = visitorSuggestions.findIndex(item => item.id === id);
+            if (foundIndex === -1) return;
+
+            const suggestion = visitorSuggestions[foundIndex];
+
+            // 공식 리스트용 오브젝트 변환
+            let emoji = '📖';
+            if (suggestion.genre === 'fantasy') emoji = '🗡️';
+            else if (suggestion.genre === 'romance') emoji = '🏫';
+            else if (suggestion.genre === 'thriller') emoji = '🧠';
+
+            const newOfficialWebtoon = {
+                id: 'approved-' + Date.now(),
+                title: suggestion.title,
+                genre: suggestion.genre,
+                image: '', // 방문자 제출은 기본 이모지로 렌더링되게 비움
+                emoji: emoji,
+                badge: `우체통추천`,
+                rating: suggestion.rating,
+                review: `"${suggestion.opinion}" (추천인: ${suggestion.guestName})`,
+                tags: suggestion.tags,
+                status: '완결작',
+                isCustom: true
+            };
+
+            // 공식 리스트에 주입
+            customWebtoons.push(newOfficialWebtoon);
+            localStorage.setItem('my_webtoon_shelf', JSON.stringify(customWebtoons));
+
+            // 수신함에서 해당 건 삭제
+            visitorSuggestions.splice(foundIndex, 1);
+            localStorage.setItem('visitor_suggestions_shelf', JSON.stringify(visitorSuggestions));
+
+            // 화면 리프레시
+            renderWebtoons();
+            renderMailbox();
+
+            showToast(`🚀 [${suggestion.title}] 작품을 정식 서재 가이드북에 추가했습니다!`);
+        }
+
+        function rejectSuggestion(id) {
+            // confirm 사용 자제 조건에 따라 별도 모달 대신 가벼운 즉각 삭제 처리 또는 기획 반영
+            visitorSuggestions = visitorSuggestions.filter(item => item.id !== id);
+            localStorage.setItem('visitor_suggestions_shelf', JSON.stringify(visitorSuggestions));
+            renderMailbox();
+            showToast("🗑️ 우체통 제안을 정중히 반려하고 삭제했습니다.");
+        }
+
+        // 8. 신규 웹툰 직접 등록 기능 (관리자 직접 수기 작성)
         function handleNewWebtoonSubmit(e) {
             e.preventDefault();
             if (!isAdminMode) return;
@@ -689,17 +937,36 @@
             document.getElementById('recommendations').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function deleteWebtoon(id) {
-            if (!confirm("이 추천 기록을 내 서재에서 영구히 삭제하시겠습니까?")) return;
-            
-            customWebtoons = customWebtoons.filter(item => item.id !== id);
-            localStorage.setItem('my_webtoon_shelf', JSON.stringify(customWebtoons));
-            
-            renderWebtoons();
-            showToast("🗑️ 소중한 기록 한 편을 안전하게 서재에서 내려놓았습니다.");
+        // 9. 브라우저 confirm 대체용 커스텀 모달 제어 시스템
+        let deleteTargetId = null;
+
+        function confirmDeleteWebtoon(id, title) {
+            deleteTargetId = id;
+            const modal = document.getElementById('confirm-modal');
+            const text = document.getElementById('confirm-modal-text');
+            text.textContent = `[${title}] 웹툰 추천 기록을 내 서재에서 진짜로 내리시겠습니까? 복구할 수 없습니다.`;
+            modal.classList.remove('hidden');
         }
 
-        // 7. 토스트 알림창 공통 모듈
+        function handleConfirmClose(isAgreed) {
+            const modal = document.getElementById('confirm-modal');
+            modal.classList.add('hidden');
+
+            if (isAgreed && deleteTargetId) {
+                customWebtoons = customWebtoons.filter(item => item.id !== deleteTargetId);
+                localStorage.setItem('my_webtoon_shelf', JSON.stringify(customWebtoons));
+                
+                renderWebtoons();
+                showToast("🗑️ 소중한 기록 한 편을 안전하게 서재에서 내려놓았습니다.");
+            }
+            deleteTargetId = null;
+        }
+
+        // 커스텀 모달 버튼 이벤트 마운트
+        document.getElementById('confirm-agree-btn').addEventListener('click', () => handleConfirmClose(true));
+        document.getElementById('confirm-cancel-btn').addEventListener('click', () => handleConfirmClose(false));
+
+        // 10. 토스트 알림창 공통 모듈
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -713,7 +980,7 @@
         // 초기 앱 구동 시 초기화
         window.onload = function() {
             initTheme();
-            loadWebtoons();
+            loadAllData();
             setTimeout(startTyping, 400); // 쾌적한 흐름을 위해 첫 마운트 후 약간의 딜레이 후 실행
         }
     </script>
