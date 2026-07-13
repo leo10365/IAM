@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="transition-colors duration-300">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
     
     <script>
         tailwind.config = {
+            darkMode: 'class', // 다크 모드 활성화 환경 구축
             theme: {
                 screens: {
                     'xs': '400px',
@@ -40,9 +41,11 @@
         }
     </script>
     <style>
+        /* 기본 스타일 셋업 */
         body {
             background-color: #F0F4F8;
             color: #1B2A47;
+            transition: background-color 0.3s, color 0.3s;
         }
         /* 스무스 스크롤 효과 */
         html {
@@ -54,7 +57,7 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #F0F4F8;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
             background: #CBD5E1;
@@ -63,39 +66,67 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94A3B8;
         }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748B;
+        }
+
+        /* 커서 애니메이션 */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { color: transparent }
+            50% { color: #2563EB }
+        }
+        .dark .typing-cursor::after {
+            animation: blink-dark 0.8s step-end infinite;
+        }
+        @keyframes blink-dark {
+            from, to { color: transparent }
+            50% { color: #60A5FA }
+        }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-brand-accent selection:text-white">
+<body class="font-sans antialiased selection:bg-brand-accent selection:text-white dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300">
 
     <!-- 1. 네비게이션 헤더 (모바일 높이 및 고정 레이아웃 최적화) -->
-    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-border">
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-brand-border dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="#" class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center font-bold text-lg text-white">
                     💬
                 </div>
-                <span class="font-bold text-base sm:text-lg tracking-tight text-brand-text truncate max-w-[180px] sm:max-w-none">지극히 주관적인 웹툰 방</span>
+                <span class="font-bold text-base sm:text-lg tracking-tight text-brand-text dark:text-white truncate max-w-[180px] sm:max-w-none">지극히 주관적인 웹툰 방</span>
             </a>
             
             <div class="flex items-center gap-2 sm:gap-4">
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-brand-text">
-                    <a href="#intro" class="hover:text-brand-accent transition">소개</a>
-                    <a href="#strength" class="hover:text-brand-accent transition">매력포인트</a>
-                    <a href="#recommendations" class="hover:text-brand-accent transition">웹툰 추천</a>
+                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-brand-text dark:text-slate-200">
+                    <a href="#intro" class="hover:text-brand-accent dark:hover:text-blue-400 transition">소개</a>
+                    <a href="#strength" class="hover:text-brand-accent dark:hover:text-blue-400 transition">매력포인트</a>
+                    <a href="#recommendations" class="hover:text-brand-accent dark:hover:text-blue-400 transition">웹툰 추천</a>
                 </nav>
+
+                <!-- 테마 토글 버튼 (라이트/다크) -->
+                <button onclick="toggleDarkMode()" id="theme-toggle-btn" class="p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-brand-text dark:text-slate-200 transition text-sm" title="테마 변경">
+                    🌙
+                </button>
 
                 <!-- 관리자 상태 표시기 / 로그아웃 버튼 (평소엔 숨김) -->
                 <div id="admin-badge-container" class="hidden flex items-center gap-2">
-                    <span class="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-bold flex items-center gap-1">
+                    <span class="px-2 py-1 bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-400 rounded-lg text-xs font-bold flex items-center gap-1">
                         👑 관리자 모드
                     </span>
-                    <button onclick="logoutAdmin()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition">
+                    <button onclick="logoutAdmin()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition">
                         로그아웃
                     </button>
                 </div>
 
-                <!-- 나만 아는 비밀의 관리자 로그인 입구 (아주 심플한 열쇠 아이콘, 터치 타겟 여유있게 패딩 부여) -->
-                <button onclick="openLoginModal()" id="btn-secret-lock" class="p-3 text-slate-300 hover:text-brand-accent transition flex items-center justify-center" title="관리자 로그인">
+                <!-- 비밀의 관리자 로그인 입구 (아주 심플한 열쇠 아이콘, 터치 타겟 여유있게 패딩 부여) -->
+                <button onclick="openLoginModal()" id="btn-secret-lock" class="p-3 text-slate-300 hover:text-brand-accent dark:text-slate-600 dark:hover:text-blue-400 transition flex items-center justify-center" title="관리자 로그인">
                     🔑
                 </button>
             </div>
@@ -105,24 +136,24 @@
     <!-- 2. 히어로 섹션 (모바일 대응 패딩 및 카드 레이아웃 최적화) -->
     <section id="intro" class="max-w-6xl mx-auto px-4 pt-8 pb-12 sm:pt-12 sm:pb-16 md:py-24 flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div class="flex-1 space-y-5 sm:space-y-6 text-center md:text-left w-full">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 text-brand-accent rounded-full text-xs font-semibold tracking-wide">
-                <span>🛡️</span> 광고 ZERO 청정구역
+            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 dark:bg-blue-950/50 text-brand-accent dark:text-blue-400 rounded-full text-xs font-semibold tracking-wide">
+                <span>🛡️</span> 나만의 웹툰 추천
             </div>
             
-            <!-- 캐치프레이즈 (모바일 줄바꿈 최소화) -->
-            <h1 class="text-2.5xl sm:text-3.5xl md:text-4.5xl font-black leading-tight text-brand-text tracking-tight">
-                생각 없이 읽기 딱 좋은,<br class="hidden sm:inline">
-                <span class="text-brand-accent underline decoration-wavy decoration-2 underline-offset-4">광고 없는 찐 한줄평</span> 웹툰
+            <!-- 캐치프레이즈 (실시간 타이핑 효과 적용) -->
+            <h1 class="text-2.5xl sm:text-3.5xl md:text-4.5xl font-black leading-tight text-brand-text dark:text-white tracking-tight min-h-[4rem]">
+                <span id="typing-title" class="text-brand-accent dark:text-blue-400 underline decoration-wavy decoration-2 underline-offset-4 typing-cursor"></span><br class="hidden sm:inline">
+                광고 없는 찐 한줄평 웹툰
             </h1>
             
             <!-- 스토리텔링 설명 -->
-            <div class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border shadow-sm text-left relative overflow-hidden">
-                <div class="absolute -top-6 -right-6 w-16 h-16 bg-brand-bg rounded-full flex items-center justify-center text-2xl text-slate-300 pointer-events-none">
+            <div class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-850 shadow-sm text-left relative overflow-hidden transition-colors duration-300">
+                <div class="absolute -top-6 -right-6 w-16 h-16 bg-brand-bg dark:bg-slate-950 rounded-full flex items-center justify-center text-2xl text-slate-300 dark:text-slate-800 pointer-events-none">
                     ”
                 </div>
-                <h3 class="text-xs font-bold text-brand-accent mb-1 uppercase tracking-widest">나의 고백 💬</h3>
-                <p class="text-[13px] sm:text-sm leading-relaxed text-brand-muted font-medium">
-                    "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 광고 없이, 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
+                <h3 class="text-xs font-bold text-brand-accent dark:text-blue-400 mb-1 uppercase tracking-widest">나의 고백 💬</h3>
+                <p class="text-[13px] sm:text-sm leading-relaxed text-brand-muted dark:text-slate-300 font-medium">
+                    "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
                 </p>
             </div>
 
@@ -158,43 +189,43 @@
     </section>
 
     <!-- 3. 강점 카드 (3대 매력포인트 - 모바일 1열, 데스크톱 3열 변경) -->
-    <section id="strength" class="bg-white py-12 sm:py-16 border-y border-brand-border">
+    <section id="strength" class="bg-white dark:bg-slate-900/50 border-y border-brand-border dark:border-slate-800 py-12 sm:py-16 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center max-w-lg mx-auto mb-10 sm:mb-12 space-y-1.5">
-                <h2 class="text-xl sm:text-2xl font-black text-brand-text">이곳이 특별한 3가지 이유</h2>
-                <p class="text-xs text-brand-muted px-2">광고 가득한 블로그와 뻔한 순위표에 지친 당신을 위한 맞춤형 쉼터입니다.</p>
+                <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">이곳이 특별한 3가지 이유</h2>
+                <p class="text-xs text-brand-muted dark:text-slate-400 px-2">광고 가득한 블로그와 뻔한 순위표에 지친 당신을 위한 맞춤형 쉼터입니다.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 <!-- 강점 1 -->
-                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
+                <div class="bg-brand-bg dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 space-y-3 hover:shadow-sm transition duration-300">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-brand-accent dark:text-blue-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
                         🎯
                     </div>
-                    <h3 class="text-sm sm:text-base font-bold text-brand-text">소수정예 장르별 셀렉숍</h3>
-                    <p class="text-xs text-brand-muted leading-relaxed">
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text dark:text-white">소수정예 장르별 셀렉숍</h3>
+                    <p class="text-xs text-brand-muted dark:text-slate-350 leading-relaxed">
                         수만 개의 작품 중 헤매지 마세요. 장르별로 내가 직접 끝까지 다 보고 확실하게 재미를 느낀 '인생작'만 가려서 깔끔하게 소개합니다.
                     </p>
                 </div>
 
                 <!-- 강점 2 -->
-                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
+                <div class="bg-brand-bg dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 space-y-3 hover:shadow-sm transition duration-300">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-brand-accent dark:text-blue-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
                         📝
                     </div>
-                    <h3 class="text-sm sm:text-base font-bold text-brand-text">내 맘대로 가벼운 별점 & 한줄평</h3>
-                    <p class="text-xs text-brand-muted leading-relaxed">
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text dark:text-white">내 맘대로 가벼운 별점 & 한줄평</h3>
+                    <p class="text-xs text-brand-muted dark:text-slate-350 leading-relaxed">
                         길고 지루한 시놉시스나 스포일러는 전부 뺐습니다. 오직 직관적인 한줄평과 내 기준 별점만 제공하여 3초 만에 선택할 수 있게 돕습니다.
                     </p>
                 </div>
 
                 <!-- 강점 3 -->
-                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
+                <div class="bg-brand-bg dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 space-y-3 hover:shadow-sm transition duration-300">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-brand-accent dark:text-blue-400 flex items-center justify-center text-xl sm:text-2xl font-bold">
                         🍀
                     </div>
-                    <h3 class="text-sm sm:text-base font-bold text-brand-text">부담 없이 쓱 훑어보는 아지트</h3>
-                    <p class="text-xs text-brand-muted leading-relaxed">
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text dark:text-white">부담 없이 쓱 훑어보는 아지트</h3>
+                    <p class="text-xs text-brand-muted dark:text-slate-350 leading-relaxed">
                         회원가입도, 유도 광고도 없습니다. 언제든 쉬는 시간 10분 동안 편하게 놀러 와서 스마트폰 화면 넘기듯 슥 훑어보고 나가는 나만의 주머니 속 아지트입니다.
                     </p>
                 </div>
@@ -206,16 +237,16 @@
     <section id="recommendations" class="max-w-6xl mx-auto px-4 py-12 sm:py-16 space-y-6 sm:space-y-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div class="space-y-1 text-center md:text-left">
-                <h2 class="text-xl sm:text-2xl font-black text-brand-text">지극히 주관적인 추천 목록</h2>
-                <p class="text-xs text-brand-muted">장르 탭을 눌러 평점과 생생한 한줄평을 모아 보세요.</p>
+                <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">지극히 주관적인 추천 목록</h2>
+                <p class="text-xs text-brand-muted dark:text-slate-400">장르 탭을 눌러 평점과 생생한 한줄평을 모아 보세요.</p>
             </div>
             
             <!-- 장르 필터 탭 (모바일에서 좌우 스크롤 가능하도록 터치 스와이프 슬라이더 최적화) -->
             <div class="flex overflow-x-auto pb-1 sm:pb-0 gap-2 scrollbar-none snap-x -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
                 <button onclick="filterGenre('all')" id="btn-genre-all" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition">전체보기</button>
-                <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🗡️ 판타지/액션</button>
-                <button onclick="filterGenre('romance')" id="btn-genre-romance" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🏫 로맨스/일상</button>
-                <button onclick="filterGenre('thriller')" id="btn-genre-thriller" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🧠 개그/스릴러</button>
+                <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-brand-text dark:text-slate-300 border border-brand-border dark:border-slate-800 hover:bg-brand-bg dark:hover:bg-slate-800 transition">🗡️ 판타지/액션</button>
+                <button onclick="filterGenre('romance')" id="btn-genre-romance" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-brand-text dark:text-slate-300 border border-brand-border dark:border-slate-800 hover:bg-brand-bg dark:hover:bg-slate-800 transition">🏫 로맨스/일상</button>
+                <button onclick="filterGenre('thriller')" id="btn-genre-thriller" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-brand-text dark:text-slate-300 border border-brand-border dark:border-slate-800 hover:bg-brand-bg dark:hover:bg-slate-800 transition">🧠 개그/스릴러</button>
             </div>
         </div>
 
@@ -226,24 +257,24 @@
     </section>
 
     <!-- 5. 관리자 전용 웹툰 등록 폼 (평소에는 'hidden' 처리되어 일반 방문자에게 완벽 차단됨) -->
-    <section id="add-section" class="hidden bg-slate-100 border-t border-brand-border py-12 sm:py-16 transition-all duration-300">
+    <section id="add-section" class="hidden bg-slate-100 dark:bg-slate-900/80 border-t border-brand-border dark:border-slate-800 py-12 sm:py-16 transition-all duration-300">
         <div class="max-w-2xl mx-auto px-4 text-center space-y-4 sm:space-y-6">
             <span class="text-2xl sm:text-3xl">📝</span>
-            <h2 class="text-xl sm:text-2xl font-black text-brand-text">새 작품 아지트에 기록하기 (관리자용)</h2>
-            <p class="text-xs text-brand-muted leading-relaxed max-w-md mx-auto px-2">
+            <h2 class="text-xl sm:text-2xl font-black text-brand-text dark:text-white">새 작품 아지트에 기록하기 (관리자용)</h2>
+            <p class="text-xs text-brand-muted dark:text-slate-450 leading-relaxed max-w-md mx-auto px-2">
                 현재 관리자 자격으로 로그인하셨습니다. 이곳에 입력하신 새로운 인생 웹툰은 실시간으로 저장되며, 새로고침해도 안전하게 영구 저장됩니다.
             </p>
 
             <!-- 사용자 참여 양식 -->
-            <form onsubmit="handleNewWebtoonSubmit(event)" class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border text-left shadow-lg space-y-4">
+            <form onsubmit="handleNewWebtoonSubmit(event)" class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 text-left shadow-lg space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-brand-text mb-1" for="new-title">웹툰 제목</label>
-                        <input type="text" id="new-title" required placeholder="예: 신의 탑, 대학일기" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-title">웹툰 제목</label>
+                        <input type="text" id="new-title" required placeholder="예: 신의 탑, 대학일기" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-brand-text mb-1" for="new-genre">장르 분류</label>
-                        <select id="new-genre" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-genre">장르 분류</label>
+                        <select id="new-genre" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="fantasy">🗡️ 판타지/액션</option>
                             <option value="romance">🏫 로맨스/일상</option>
                             <option value="thriller">🧠 개그/스릴러</option>
@@ -253,8 +284,8 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-brand-text mb-1" for="new-rating">나의 솔직 별점</label>
-                        <select id="new-rating" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-rating">나의 솔직 별점</label>
+                        <select id="new-rating" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="⭐⭐⭐⭐⭐ (5.0)">⭐⭐⭐⭐⭐ (5.0)</option>
                             <option value="⭐⭐⭐⭐⭐ (4.8)">⭐⭐⭐⭐⭐ (4.8)</option>
                             <option value="⭐⭐⭐⭐⭐ (4.5)">⭐⭐⭐⭐⭐ (4.5)</option>
@@ -263,31 +294,31 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-brand-text mb-1" for="new-status">연재 여부</label>
-                        <select id="new-status" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-status">연재 여부</label>
+                        <select id="new-status" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="완결작">완결작</option>
                             <option value="연재중">연재중</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-brand-text mb-1" for="new-badge">인상깊은 뱃지</label>
-                        <input type="text" id="new-badge" placeholder="예: 꿀잼보장, 연출예술" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent text-center">
+                        <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-badge">인상깊은 뱃지</label>
+                        <input type="text" id="new-badge" placeholder="예: 꿀잼보장, 연출예술" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent text-center">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-brand-text mb-1" for="new-tags">해시태그 (쉼표로 구분)</label>
-                    <input type="text" id="new-tags" placeholder="예: 먼치킨, 감동, 몰입도최강" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-tags">해시태그 (쉼표로 구분)</label>
+                    <input type="text" id="new-tags" placeholder="예: 먼치킨, 감동, 몰입도최강" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-brand-text mb-1" for="new-image">커버 이미지 주소 (선택)</label>
-                    <input type="url" id="new-image" placeholder="https://images.unsplash.com/... (비워두면 이모지로 자동 렌더링)" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-image">커버 이미지 주소 (선택)</label>
+                    <input type="url" id="new-image" placeholder="https://images.unsplash.com/... (비워두면 이모지로 자동 렌더링)" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-brand-text mb-1" for="new-opinion">주인장의 날것 그대로 한줄평</label>
-                    <textarea id="new-opinion" rows="3" required placeholder="꾸미지 않은 나의 진짜 솔직한 감상을 자유롭게 작성해 보세요!" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
+                    <label class="block text-xs font-bold text-brand-text dark:text-slate-200 mb-1" for="new-opinion">주인장의 날것 그대로 한줄평</label>
+                    <textarea id="new-opinion" rows="3" required placeholder="꾸미지 않은 나의 진짜 솔직한 감상을 자유롭게 작성해 보세요!" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
                 </div>
                 
                 <button type="submit" class="w-full py-3 sm:py-3.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl shadow-md transition">
@@ -299,22 +330,22 @@
 
     <!-- 6. 비밀 로그인 팝업 모달창 (모바일 터치 및 화면 너비 맞춤) -->
     <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border w-full max-w-sm shadow-2xl space-y-4">
+        <div class="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-2xl border border-brand-border dark:border-slate-800 w-full max-w-sm shadow-2xl space-y-4">
             <div class="flex justify-between items-center">
-                <h3 class="text-sm font-bold text-brand-text flex items-center gap-1.5">
+                <h3 class="text-sm font-bold text-brand-text dark:text-white flex items-center gap-1.5">
                     <span>🔑</span> 관리자 권한 확인
                 </h3>
-                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-brand-text p-2">✕</button>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-brand-text dark:hover:text-white p-2">✕</button>
             </div>
-            <p class="text-[11px] text-brand-muted leading-relaxed">
+            <p class="text-[11px] text-brand-muted dark:text-slate-400 leading-relaxed">
                 이곳은 주인장의 개인 서재 관리 구역입니다. 관리용 비밀번호를 입력해 활성화해 주세요.
             </p>
             <div>
-                <label class="block text-[10px] font-bold text-brand-text mb-1" for="admin-password">비밀번호</label>
-                <input type="password" id="admin-password" placeholder="비밀번호를 입력하세요 (기본: 1234)" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                <label class="block text-[10px] font-bold text-brand-text dark:text-slate-200 mb-1" for="admin-password">비밀번호</label>
+                <input type="password" id="admin-password" placeholder="비밀번호를 입력하세요 (기본: 1234)" class="w-full px-3 py-2.5 border border-brand-border dark:border-slate-800 rounded-xl text-xs bg-brand-bg dark:bg-slate-950 text-brand-text dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-accent">
             </div>
             <div class="flex gap-2">
-                <button onclick="closeLoginModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+                <button onclick="closeLoginModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-lg transition">
                     취소
                 </button>
                 <button onclick="authenticateAdmin()" class="flex-1 py-2.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-lg shadow-sm transition">
@@ -325,21 +356,21 @@
     </div>
 
     <!-- 임시 알림창 토스트 알림을 위한 마크업 -->
-    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-brand-text text-white px-4 py-3 rounded-xl border border-brand-border shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none text-center sm:text-left">
+    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-brand-text dark:bg-slate-800 text-white px-4 py-3 rounded-xl border border-brand-border dark:border-slate-700 shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none text-center sm:text-left">
         성공적으로 전송되었습니다!
     </div>
 
     <!-- 7. 푸터 -->
-    <footer class="bg-white border-t border-brand-border py-8 text-center text-xs text-brand-muted space-y-2">
+    <footer class="bg-white dark:bg-slate-900 border-t border-brand-border dark:border-slate-800 py-8 text-center text-xs text-brand-muted dark:text-slate-400 space-y-2 transition-colors duration-300">
         <div class="flex justify-center items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
-            <span class="font-bold text-brand-text">광고 ZERO 100% 솔직 청정 구역</span>
+            <span class="font-bold text-brand-text dark:text-white">광고 ZERO 100% 솔직 청정 구역</span>
         </div>
         <p>© 2026 지극히 주관적인 웹툰 방. All rights reserved.</p>
-        <p class="text-[10px] text-slate-400 px-4">이곳의 모든 추천은 지극히 개인적이며, 어떠한 대가성 협찬이나 광고 수익을 포함하고 있지 않습니다.</p>
+        <p class="text-[10px] text-slate-450 dark:text-slate-500 px-4">이곳의 모든 추천은 지극히 개인적이며, 어떠한 대가성 협찬이나 광고 수익을 포함하고 있지 않습니다.</p>
     </footer>
 
-    <!-- 자바스크립트 로직 (필터 및 관리 시스템 전체) -->
+    <!-- 자바스크립트 로직 -->
     <script>
         // 기본 6개 시그니처 추천작 (사용자가 수정 불가능한 박제용 명예의 전당)
         const INITIAL_WEBTOONS = [
@@ -427,7 +458,50 @@
         let isAdminMode = false;
         let currentGenreFilter = 'all';
 
-        // 1. 초기 데이터 및 로컬 데이터 바인딩 로드
+        // 1. 타이핑 애니메이션 엔진
+        const typingText = "생각 없이 읽기 딱 좋은...";
+        let typingIndex = 0;
+        const typingTarget = document.getElementById('typing-title');
+
+        function startTyping() {
+            if (typingIndex < typingText.length) {
+                typingTarget.textContent += typingText.charAt(typingIndex);
+                typingIndex++;
+                setTimeout(startTyping, 120);
+            } else {
+                // 타이핑 완료 후 깜빡이는 커서 효과 잔류
+                typingTarget.classList.remove('typing-cursor');
+            }
+        }
+
+        // 2. 라이트 / 다크 모드 제어 시스템
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeButton(isDark);
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
+            
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateThemeButton(isDark);
+        }
+
+        function updateThemeButton(isDark) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) {
+                btn.innerHTML = isDark ? '☀️' : '🌙';
+            }
+        }
+
+        // 3. 웹툰 데이터 로드 및 렌더링
         function loadWebtoons() {
             const stored = localStorage.getItem('my_webtoon_shelf');
             if (stored) {
@@ -436,7 +510,6 @@
             renderWebtoons();
         }
 
-        // 2. 통합 웹툰 카드 렌더링 처리 (반응형 320px 모바일 화면 레이아웃 최적화)
         function renderWebtoons() {
             const grid = document.getElementById('webtoon-grid');
             grid.innerHTML = '';
@@ -444,62 +517,56 @@
             const allList = [...INITIAL_WEBTOONS, ...customWebtoons];
 
             allList.forEach(item => {
-                // 장르 필터링 통과 조건 검사
                 if (currentGenreFilter !== 'all' && item.genre !== currentGenreFilter) {
                     return;
                 }
 
-                // 카드 엘리먼트 생성 (모바일 flex-col 대응)
                 const card = document.createElement('div');
-                card.className = `webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex flex-col xs:flex-row gap-4 hover:shadow-md transition relative`;
+                card.className = `webtoon-card bg-white dark:bg-slate-900 p-5 rounded-2xl border border-brand-border dark:border-slate-800 flex flex-col xs:flex-row gap-4 hover:shadow-md transition relative duration-350`;
                 
-                // 장르 배지 설정
                 let genreText = '기타';
                 let genreColorClass = 'bg-slate-500';
                 if (item.genre === 'fantasy') { genreText = '판타지'; genreColorClass = 'bg-brand-accent'; }
                 else if (item.genre === 'romance') { genreText = '로맨스'; genreColorClass = 'bg-rose-500'; }
                 else if (item.genre === 'thriller') { genreText = '스릴러'; genreColorClass = 'bg-purple-500'; }
 
-                // 이미지 혹은 이모지 렌더링 태그 분기
                 let thumbnailHTML = '';
                 if (item.image && item.image.trim() !== '') {
                     thumbnailHTML = `
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
-                        <div class="hidden absolute inset-0 flex items-center justify-center bg-blue-50 text-3xl">${item.emoji || '📖'}</div>
+                        <div class="hidden absolute inset-0 flex items-center justify-center bg-blue-50 dark:bg-slate-800 text-3xl">${item.emoji || '📖'}</div>
                     `;
                 } else {
                     thumbnailHTML = `
-                        <div class="absolute inset-0 flex items-center justify-center bg-blue-50 text-3xl">${item.emoji || '📖'}</div>
+                        <div class="absolute inset-0 flex items-center justify-center bg-blue-50 dark:bg-slate-800 text-3xl">${item.emoji || '📖'}</div>
                     `;
                 }
 
-                // 삭제 버튼 가시성 제어 (로그인한 관리자 상태 + 내가 직접 등록한 웹툰인 경우에만 렌더링)
                 const deleteBtnHTML = (isAdminMode && item.isCustom) 
-                    ? `<button onclick="deleteWebtoon('${item.id}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[10px] font-bold rounded-lg transition z-10">🗑️ 삭제</button>`
+                    ? `<button onclick="deleteWebtoon('${item.id}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/30 text-[10px] font-bold rounded-lg transition z-10">🗑️ 삭제</button>`
                     : ``;
 
-                // 해시태그 가공
                 const tagsHTML = item.tags ? item.tags.map(t => t.startsWith('#') ? t : '#' + t).join(' ') : '';
 
                 card.innerHTML = `
-                    <div class="w-full xs:w-20 h-32 xs:h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-slate-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <div class="w-full xs:w-20 h-32 xs:h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-slate-100 dark:bg-slate-850 flex items-center justify-center text-3xl shadow-inner border border-brand-border dark:border-slate-800">
                         ${thumbnailHTML}
                         <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 ${genreColorClass} text-white rounded shadow-sm">${genreText}</span>
                     </div>
                     <div class="flex flex-col justify-between flex-grow pr-2 pb-6 xs:pb-0">
                         <div>
                             <div class="flex items-center justify-between gap-2">
-                                <h4 class="font-bold text-sm text-brand-text truncate">${item.title}</h4>
-                                ${item.badge ? `<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold whitespace-nowrap">${item.badge}</span>` : ''}
+                                <h4 class="font-bold text-sm text-brand-text dark:text-white truncate">${item.title}</h4>
+                                ${item.badge ? `<span class="text-[10px] bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded font-bold whitespace-nowrap">${item.badge}</span>` : ''}
                             </div>
                             <div class="text-amber-500 text-xs font-bold mt-1">${item.rating}</div>
-                            <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            <p class="text-[12px] text-brand-muted dark:text-slate-300 mt-2 leading-relaxed">
                                 ${item.review}
                             </p>
                         </div>
-                        <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between items-center gap-1">
+                        <div class="text-[10px] text-brand-muted dark:text-slate-400 font-medium mt-3 pt-2 border-t border-brand-bg dark:border-slate-850 flex justify-between items-center gap-1">
                             <span class="truncate max-w-[140px] sm:max-w-none">${tagsHTML}</span>
-                            <span class="${item.status === '완결작' ? 'text-brand-accent' : 'text-green-600'} font-bold whitespace-nowrap">${item.status}</span>
+                            <span class="${item.status === '완결작' ? 'text-brand-accent dark:text-blue-400' : 'text-green-600 dark:text-green-400'} font-bold whitespace-nowrap">${item.status}</span>
                         </div>
                         ${deleteBtnHTML}
                     </div>
@@ -508,7 +575,7 @@
             });
         }
 
-        // 3. 장르 필터링 기능 (모바일 스크롤 중앙 정렬 적용)
+        // 4. 장르 필터링
         function filterGenre(genre) {
             currentGenreFilter = genre;
             renderWebtoons();
@@ -518,15 +585,14 @@
                 const btn = document.getElementById('btn-genre-' + b);
                 if (b === genre) {
                     btn.className = "snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition";
-                    // 모바일 탭 터치 시 터치한 요소를 슬라이더 가로 중앙으로 부드럽게 스크롤링
                     btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
-                    btn.className = "snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition";
+                    btn.className = "snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 text-brand-text dark:text-slate-300 border border-brand-border dark:border-slate-800 hover:bg-brand-bg dark:hover:bg-slate-800 transition";
                 }
             });
         }
 
-        /* ------------------ 비밀 관리자 인증 시스템 ------------------ */
+        // 5. 비밀 관리자 로그인 모듈
         function openLoginModal() {
             document.getElementById('login-modal').classList.remove('hidden');
             document.getElementById('admin-password').focus();
@@ -537,7 +603,6 @@
             document.getElementById('admin-password').value = '';
         }
 
-        // 관리자 모드 가동 처리
         function authenticateAdmin() {
             const pass = document.getElementById('admin-password').value;
             if (pass === '1234') {
@@ -551,7 +616,6 @@
             }
         }
 
-        // 로그아웃 처리
         function logoutAdmin() {
             isAdminMode = false;
             updateAdminUIVisibility();
@@ -559,7 +623,6 @@
             showToast("🔒 안전하게 일반 관람용 화면으로 전환되었습니다.");
         }
 
-        // 관리자용 UI 보이기/숨기기 상태 제어
         function updateAdminUIVisibility() {
             const addSection = document.getElementById('add-section');
             const adminBadge = document.getElementById('admin-badge-container');
@@ -568,7 +631,7 @@
             if (isAdminMode) {
                 addSection.classList.remove('hidden');
                 adminBadge.classList.remove('hidden');
-                lockIcon.classList.add('hidden'); // 로그인 상태 시 자물쇠 숨기기
+                lockIcon.classList.add('hidden');
             } else {
                 addSection.classList.add('hidden');
                 adminBadge.classList.add('hidden');
@@ -576,12 +639,11 @@
             }
         }
 
-        /* ------------------ 새 웹툰 추가 프로세스 ------------------ */
+        // 6. 신규 웹툰 등록 기능
         function handleNewWebtoonSubmit(e) {
             e.preventDefault();
             if (!isAdminMode) return;
 
-            // 값 파싱
             const title = document.getElementById('new-title').value.trim();
             const genre = document.getElementById('new-genre').value;
             const rating = document.getElementById('new-rating').value;
@@ -591,10 +653,8 @@
             const image = document.getElementById('new-image').value.trim();
             const review = document.getElementById('new-opinion').value.trim();
 
-            // 해시태그 분절 배열화
             const tags = rawTags ? rawTags.split(',').map(tag => tag.trim()) : [];
 
-            // 장르별 썸네일 대안 이모지 설정
             let emoji = '📖';
             if (genre === 'fantasy') emoji = '🗡️';
             else if (genre === 'romance') emoji = '🏫';
@@ -614,11 +674,10 @@
                 isCustom: true
             };
 
-            // 커스텀 데이터 삽입 및 로컬 세이브
             customWebtoons.push(newObject);
             localStorage.setItem('my_webtoon_shelf', JSON.stringify(customWebtoons));
 
-            // 리셋 및 재출력
+            // 등록 후 폼 초기화
             document.getElementById('new-title').value = '';
             document.getElementById('new-badge').value = '';
             document.getElementById('new-tags').value = '';
@@ -627,12 +686,9 @@
 
             renderWebtoons();
             showToast(`🔥 [${title}] 새 추천작이 서재에 안전하게 추가되었습니다!`);
-            
-            // 등록된 추천작 목록 위치로 가볍게 스크롤
             document.getElementById('recommendations').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 내가 올린 웹툰 삭제 기능
         function deleteWebtoon(id) {
             if (!confirm("이 추천 기록을 내 서재에서 영구히 삭제하시겠습니까?")) return;
             
@@ -643,7 +699,7 @@
             showToast("🗑️ 소중한 기록 한 편을 안전하게 서재에서 내려놓았습니다.");
         }
 
-        /* ------------------ 토스트 메시지 유틸리티 ------------------ */
+        // 7. 토스트 알림창 공통 모듈
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -654,9 +710,11 @@
             }, 3500);
         }
 
-        // 초기 앱 마운트 실행
+        // 초기 앱 구동 시 초기화
         window.onload = function() {
+            initTheme();
             loadWebtoons();
+            setTimeout(startTyping, 400); // 쾌적한 흐름을 위해 첫 마운트 후 약간의 딜레이 후 실행
         }
     </script>
 </body>
