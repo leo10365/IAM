@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지극히 주관적인 웹툰 방</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: 본고딕(Noto Sans KR) 및 Gowun Dodum(일부 포인트용) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gowun+Dodum&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#F0F4F8',       /* 연한 그레이 블루 (바탕) */
+                            text: '#1B2A47',     /* 깊은 네이비 (텍스트) */
+                            accent: '#2563EB',   /* 정직한 블루 (포인트) */
+                            accentHover: '#1D4ED8',
+                            cardBg: '#FFFFFF',
+                            border: '#E2E8F0',
+                            muted: '#64748B'     /* 차분한 슬레이트 그레이 */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                        point: ['Gowun Dodum', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F0F4F8;
+            color: #1B2A47;
+        }
+        /* 스무스 스크롤 효과 */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-accent selection:text-white">
+
+    <!-- 1. 네비게이션 헤더 -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-border">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center font-bold text-lg text-white">
+                    💬
+                </div>
+                <span class="font-bold text-lg tracking-tight text-brand-text">지극히 주관적인 웹툰 방</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-brand-text">
+                <a href="#intro" class="hover:text-brand-accent transition">소개</a>
+                <a href="#strength" class="hover:text-brand-accent transition">매력포인트</a>
+                <a href="#recommendations" class="hover:text-brand-accent transition">웹툰 추천</a>
+                <a href="#game-shelter" class="hover:text-brand-accent transition">게임 쉼터</a>
+                <a href="#cta" class="px-4 py-2 bg-brand-accent hover:bg-brand-accentHover text-white rounded-lg transition text-xs font-bold shadow-sm">
+                    한줄평 남기기
+                </a>
+            </nav>
+
+            <!-- 모바일용 미니 버튼 -->
+            <div class="flex md:hidden gap-2">
+                <a href="#game-shelter" class="px-2.5 py-1.5 bg-brand-bg text-brand-accent hover:bg-brand-border rounded-lg text-xs font-bold transition">🎮 게임쉼터</a>
+                <a href="#recommendations" class="px-2.5 py-1.5 bg-brand-accent text-white hover:bg-brand-accentHover rounded-lg text-xs font-bold transition">웹툰보기</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 히어로 섹션 -->
+    <section id="intro" class="max-w-6xl mx-auto px-4 pt-12 pb-16 md:py-24 flex flex-col md:flex-row items-center gap-12">
+        <div class="flex-1 space-y-6 text-center md:text-left">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-brand-accent rounded-full text-xs font-semibold tracking-wide">
+                <span>🛡️</span> 100% 솔직 주관 가이드
+            </div>
+            
+            <!-- 캐치프레이즈 -->
+            <h1 class="text-3xl sm:text-4.5xl font-black leading-tight text-brand-text tracking-tight">
+                생각 없이 읽기 딱 좋은,<br class="hidden sm:inline">
+                <span class="text-brand-accent underline decoration-wavy decoration-2 underline-offset-4">광고 없는 찐 한줄평</span> 웹툰
+            </h1>
+            
+            <!-- 스토리텔링 설명 -->
+            <div class="bg-white p-6 rounded-2xl border border-brand-border shadow-sm text-left relative overflow-hidden">
+                <div class="absolute -top-6 -right-6 w-16 h-16 bg-brand-bg rounded-full flex items-center justify-center text-2xl text-slate-300 pointer-events-none">
+                    ”
+                </div>
+                <h3 class="text-xs font-bold text-brand-accent mb-2 uppercase tracking-widest">나의 고백 💬</h3>
+                <p class="text-sm leading-relaxed text-brand-muted font-medium">
+                    "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 광고 없이, 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
+                </p>
+            </div>
+
+            <!-- 메인 CTA 버튼 그룹 -->
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                <a href="#recommendations" class="px-6 py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded-xl shadow-lg shadow-blue-500/10 transition transform hover:-translate-y-0.5 text-sm">
+                    🎯 추천 리스트 쓱 훑어보기
+                </a>
+                <a href="#game-shelter" class="px-6 py-3 bg-white hover:bg-brand-bg text-brand-text font-bold rounded-xl border border-brand-border transition transform hover:-translate-y-0.5 text-sm flex items-center gap-2">
+                    🎮 가벼운 게임으로 머리 식히기
+                </a>
+            </div>
+        </div>
+
+        <!-- 이미지 대체용 비주얼 요소 (메인 아트워크 대용 일러스트 카드) -->
+        <div class="flex-1 w-full max-w-md">
+            <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col justify-between">
+                <!-- 배경 장식용 원 -->
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
+                <div class="absolute left-10 top-10 w-24 h-24 bg-blue-400/20 rounded-full blur-lg"></div>
+
+                <div class="flex justify-between items-start">
+                    <span class="text-sm bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm font-semibold">My Spot 📍</span>
+                    <span class="text-3xl">🍿</span>
+                </div>
+
+                <div class="space-y-2 relative z-10">
+                    <p class="text-xs text-blue-200 uppercase tracking-widest font-bold">Today's Pick</p>
+                    <h3 class="text-2xl font-bold font-point">주말 순삭 보장 아지트</h3>
+                    <p class="text-xs text-blue-100 leading-relaxed">
+                        복잡하고 피곤한 하루 끝, 어떤 웹툰을 볼지 고민하며 시간 버리지 마세요. 검증된 소수정예만 모아두었습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 강점 카드 (3대 매력포인트) -->
+    <section id="strength" class="bg-white py-16 border-y border-brand-border">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-lg mx-auto mb-12 space-y-2">
+                <h2 class="text-2xl font-black text-brand-text">이곳이 특별한 3가지 이유</h2>
+                <p class="text-xs text-brand-muted">광고 가득한 블로그와 뻔한 순위표에 지친 당신을 위한 맞춤형 쉼터입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 강점 1 -->
+                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                        🎯
+                    </div>
+                    <h3 class="text-base font-bold text-brand-text">소수정예 장르별 셀렉숍</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        수만 개의 작품 중 헤매지 마세요. 장르별로 내가 직접 끝까지 다 보고 확실하게 재미를 느낀 '인생작'만 가려서 깔끔하게 소개합니다.
+                    </p>
+                </div>
+
+                <!-- 강점 2 -->
+                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                        📝
+                    </div>
+                    <h3 class="text-base font-bold text-brand-text">내 맘대로 가벼운 별점 & 한줄평</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        길고 지루한 시놉시스나 스포일러는 전부 뺐습니다. 오직 직관적인 한줄평과 내 기준 별점만 제공하여 3초 만에 선택할 수 있게 돕습니다.
+                    </p>
+                </div>
+
+                <!-- 강점 3 -->
+                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                        🍀
+                    </div>
+                    <h3 class="text-base font-bold text-brand-text">부담 없이 쓱 훑어보는 아지트</h3>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        회원가입도, 유도 광고도 없습니다. 언제든 쉬는 시간 10분 동안 편하게 놀러 와서 스마트폰 화면 넘기듯 슥 훑어보고 나가는 나만의 주머니 속 아지트입니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 웹툰 추천 리스트 및 필터 섹션 -->
+    <section id="recommendations" class="max-w-6xl mx-auto px-4 py-16 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-black text-brand-text">지극히 주관적인 추천 목록</h2>
+                <p class="text-xs text-brand-muted">장르 탭을 눌러 평점과 생생한 한줄평을 모아 보세요.</p>
+            </div>
+            
+            <!-- 장르 필터 탭 -->
+            <div class="flex flex-wrap gap-2" role="tablist">
+                <button onclick="filterGenre('all')" id="btn-genre-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition">전체보기</button>
+                <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🗡️ 판타지/액션</button>
+                <button onclick="filterGenre('romance')" id="btn-genre-romance" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🏫 로맨스/일상</button>
+                <button onclick="filterGenre('thriller')" id="btn-genre-thriller" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🧠 개그/스릴러</button>
+            </div>
+        </div>
+
+        <!-- 추천 웹툰 카드 그리드 -->
+        <div id="webtoon-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- 웹툰 카드 1 (판타지) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="fantasy">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-blue-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <!-- 실제 이미지 로드 (실패 시 이모지 백업 레이어 노출) -->
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80" alt="내가 키운 S급들" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-blue-100">🗡️</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-brand-accent text-white rounded shadow-sm">판타지</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">내가 키운 S급들</h4>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">꿀잼보장</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (5.0)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "원래 헌터물 복잡해서 잘 안 보는데, 이건 유치할 틈 없이 속도가 대박이에요. 주말에 이불 뒤집어쓰고 정주행 끝냈습니다."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#먼치킨 #감동육아 #몰입도최강</span>
+                        <span class="text-brand-accent">완결작</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹툰 카드 2 (로맨스) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="romance">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-rose-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=150&q=80" alt="남과 여" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-rose-100">🏫</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-rose-500 text-white rounded shadow-sm">로맨스</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">남과 여</h4>
+                            <span class="text-[10px] bg-rose-100 text-rose-800 px-2 py-0.5 rounded font-bold">감성자극</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (4.8)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "현실 연애 이야기 끝판왕. 웹툰 보다가 새벽에 가슴 아파서 눈물 찔끔 흘린 적은 진짜 살면서 처음이네요. 꼭 보세요."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#극사실주의 #여운남는 #새벽감성</span>
+                        <span class="text-brand-accent">완결작</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹툰 카드 3 (액션) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="fantasy">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-blue-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=150&q=80" alt="초인의 시대" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-blue-100">🔥</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-brand-accent text-white rounded shadow-sm">액션</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">초인의 시대</h4>
+                            <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">작화폭발</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (4.9)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "타격감이 화면 뚫고 나옵니다. 요즘 액션씬 중엔 단연 최고인 듯. 한 화 한 화가 거의 극장판 퀄리티입니다."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#괴수 #초인 #작화예술 #가슴웅장</span>
+                        <span class="text-green-600">연재중</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹툰 카드 4 (스릴러) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="thriller">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-purple-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <img src="https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=150&q=80" alt="타인은 지옥이다" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-purple-100">👀</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-purple-500 text-white rounded shadow-sm">스릴러</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">타인은 지옥이다</h4>
+                            <span class="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded font-bold">몰입감최고</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (4.7)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "고시원이라는 익숙한 공간을 이렇게 숨 막히게 연출할 수 있다는 게 신기함. 보는 내내 나까지 숨이 턱턱 막깁니다."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#고시원 #심리스릴러 #원작초월</span>
+                        <span class="text-brand-accent">완결작</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹툰 카드 5 (로맨스/학원) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="romance">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-rose-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=150&q=80" alt="세기말 풋사과 보습학원" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-rose-100">💫</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-rose-500 text-white rounded shadow-sm">로맨스</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">세기말 풋사과 보습학원</h4>
+                            <span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">치유물</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (4.9)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "90년대 레트로 학창 시절 감성에 가슴이 몽글몽글해져요. 치즈인더트랩 작가님 신작인데 디테일이 살아있어요."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#레트로 #학원물 #순수 #귀여움</span>
+                        <span class="text-green-600">연재중</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 웹툰 카드 6 (개그) -->
+            <div class="webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition" data-genre="thriller">
+                <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-emerald-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=150&q=80" alt="마음의소리" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden absolute inset-0 flex items-center justify-center bg-emerald-100">🤣</div>
+                    <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 bg-emerald-500 text-white rounded shadow-sm">개그</span>
+                </div>
+                <div class="flex flex-col justify-between flex-grow">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-sm text-brand-text">마음의소리</h4>
+                            <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">개그레전드</span>
+                        </div>
+                        <div class="text-amber-500 text-xs font-bold mt-1">⭐⭐⭐⭐⭐ (5.0)</div>
+                        <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
+                            "지하철이나 공공장소에서 보면 혼자 실실 쪼개서 이상한 사람 취급받는 레전드 개그 웹툰. 아무 회차나 찍어봐도 웃깁니다."
+                        </p>
+                    </div>
+                    <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between">
+                        <span>#일상개그 #조석 #레전드 #킬링타임</span>
+                        <span class="text-brand-accent">완결작</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. 특별 공간: 게임 쉼터 (미니 웹게임 플레이 기능 포함) -->
+    <section id="game-shelter" class="bg-brand-text text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center space-y-6">
+            <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-bold text-blue-200">
+                🎮 쉬는 시간 10분, 머리 식히기
+            </span>
+            <h2 class="text-2.5xl font-black">가볍게 즐기는 게임 쉼터</h2>
+            <p class="text-xs text-slate-300 max-w-lg mx-auto">
+                웹툰을 고르느라 눈이 피로해졌다면, 아무런 복잡한 규칙 없이 3초 만에 시작할 수 있는 미니 게임 한판 어떠세요? 
+                직관적이고 단순한 튕기기 게임을 가볍게 즐겨보세요!
+            </p>
+
+            <!-- 미니 HTML5 게임 캔버스 레이아웃 -->
+            <div class="bg-slate-900 rounded-3xl p-4 md:p-6 border border-slate-800 max-w-xl mx-auto shadow-2xl space-y-4">
+                <div class="flex justify-between items-center text-xs text-slate-400 px-2">
+                    <span id="game-score">현재 점수: 0</span>
+                    <span id="game-best">최고 점수: 0</span>
+                </div>
+                
+                <!-- 반응형 터치/드래그 지원 게임 패드 인터페이스 -->
+                <div class="relative bg-slate-950 rounded-2xl overflow-hidden aspect-[4/3] flex flex-col items-center justify-center border border-slate-800">
+                    <canvas id="gameCanvas" class="w-full h-full block bg-slate-950"></canvas>
+                    
+                    <!-- 게임 시작/오버 오버레이 화면 -->
+                    <div id="game-overlay" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center p-6 space-y-4">
+                        <span class="text-4xl">🕹️</span>
+                        <h3 id="overlay-title" class="text-base font-bold text-white">동글이 벽 튕기기 게임</h3>
+                        <p id="overlay-desc" class="text-[11px] text-slate-400 text-center max-w-xs">
+                            하단의 패들을 손가락(드래그)이나 마우스로 움직여 떨어지는 공을 튕겨내세요! 공이 아래로 떨어지면 게임오버입니다.
+                        </p>
+                        <button onclick="startGame()" class="px-5 py-2.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl transition shadow-md">
+                            게임 시작하기
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 터치 단말기 전용 핑거 터치 제어 설명 -->
+                <p class="text-[10px] text-slate-500">
+                    * 모바일에서는 화면 하단 영역을 손가락으로 가볍게 스와이프하여 패들을 움직일 수 있습니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 한줄평 남기기 (CTA 섹션) -->
+    <section id="cta" class="max-w-2xl mx-auto px-4 py-16 text-center space-y-6">
+        <span class="text-3xl">📬</span>
+        <h2 class="text-2xl font-black text-brand-text">나만 아는 인생 웹툰 추천하기</h2>
+        <p class="text-xs text-brand-muted leading-relaxed">
+            나만의 인생 웹툰이 있으신가요? 혹은 저에게 추천해 주고 싶은 보석 같은 작품이 있다면 한 줄 가볍게 남겨주세요. 
+            광고 없이 진짜 재밌게 본 작품이라면 즉시 정주행한 뒤 이 아지트에 소중히 등재해 두겠습니다!
+        </p>
+
+        <!-- 사용자 참여 양식 -->
+        <form onsubmit="handleSubmitFeedback(event)" class="bg-white p-6 rounded-2xl border border-brand-border text-left shadow-sm space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-brand-text mb-1" for="username">닉네임</label>
+                    <input type="text" id="username" required placeholder="동네 친구" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-brand-text mb-1" for="webtoonTitle">추천 웹툰명</label>
+                    <input type="text" id="webtoonTitle" required placeholder="인생작 제목 적기" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-brand-text mb-1" for="userOpinion">솔직 찐 한줄평</label>
+                <textarea id="userOpinion" rows="3" required placeholder="스포 없이 3초 만에 꽂힐 수 있는 솔직한 이야기를 써보세요!" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
+            </div>
+            
+            <button type="submit" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl shadow-md transition">
+                추천 전송하기 🚀
+            </button>
+        </form>
+
+        <!-- 임시 알림창 토스트 알림을 위한 마크업 -->
+        <div id="toast" class="fixed bottom-4 right-4 bg-brand-text text-white px-4 py-3 rounded-xl border border-brand-border shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
+            성공적으로 전송되었습니다!
+        </div>
+    </section>
+
+    <!-- 7. 푸터 -->
+    <footer class="bg-white border-t border-brand-border py-8 text-center text-xs text-brand-muted space-y-2">
+        <div class="flex justify-center items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+            <span class="font-bold text-brand-text">광고 ZERO 100% 솔직 청정 구역</span>
+        </div>
+        <p>© 2026 지극히 주관적인 웹툰 방. All rights reserved.</p>
+        <p class="text-[10px] text-slate-400">이곳의 모든 추천은 지극히 개인적이며, 어떠한 대가성 협찬이나 광고 수익을 포함하고 있지 않습니다.</p>
+    </footer>
+
+    <!-- 자바스크립트 로직 (필터링 및 미니게임) -->
+    <script>
+        /* ------------------ 웹툰 필터링 로직 ------------------ */
+        function filterGenre(genre) {
+            const cards = document.querySelectorAll('.webtoon-card');
+            const buttons = ['all', 'fantasy', 'romance', 'thriller'];
+            
+            // 필터링 적용
+            cards.forEach(card => {
+                if (genre === 'all' || card.getAttribute('data-genre') === genre) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // 액티브 버튼 스타일 변경
+            buttons.forEach(b => {
+                const btn = document.getElementById('btn-genre-' + b);
+                if (b === genre) {
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition";
+                } else {
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition";
+                }
+            });
+        }
+
+        /* ------------------ 커스텀 폼 전송 이벤트 토스트 ------------------ */
+        function handleSubmitFeedback(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const webtoon = document.getElementById('webtoonTitle').value;
+            
+            // 입력 폼 초기화
+            document.getElementById('username').value = '';
+            document.getElementById('webtoonTitle').value = '';
+            document.getElementById('userOpinion').value = '';
+
+            // 맞춤형 알림 문구
+            showToast(`🎉 ${username}님, 보석 같은 작품 [${webtoon}] 추천 감사합니다! 조만간 읽어볼게요!`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 4000);
+        }
+
+        /* ------------------ 미니 벽 튕기기 게임 로직 ------------------ */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+        let gameRunning = false;
+
+        // 게임 요소 정의
+        let ball = { x: 0, y: 0, dx: 0, dy: 0, radius: 8 };
+        let paddle = { x: 0, width: 80, height: 10 };
+        let score = 0;
+        let highScore = 0;
+
+        // 캔버스 정적 해상도 초기화
+        function resizeCanvas() {
+            // 반응형 레이아웃 대응을 위해 내부 픽셀 사이즈 결정
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+
+        // 터치 및 마우스 컨트롤 마운트
+        let isMovingPaddle = false;
+
+        function updatePaddlePosition(clientX) {
+            const rect = canvas.getBoundingClientRect();
+            const relativeX = clientX - rect.left;
+            paddle.x = relativeX - paddle.width / 2;
+            
+            // 패들 경계값 처리
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) {
+                paddle.x = canvas.width - paddle.width;
+            }
+        }
+
+        // 마우스 및 터치 이벤트 핸들러 바인딩
+        canvas.addEventListener('mousemove', (e) => {
+            updatePaddlePosition(e.clientX);
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                updatePaddlePosition(e.touches[0].clientX);
+            }
+            e.preventDefault(); // 화면 스크롤 제어 방지
+        }, { passive: false });
+
+        // 창 크기 조절 대응
+        window.addEventListener('resize', () => {
+            if (!gameRunning) {
+                resizeCanvas();
+                drawStaticScene();
+            }
+        });
+
+        // 게임 초기 정적 화면 그리기
+        function drawStaticScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1e293b';
+            ctx.font = '12px Noto Sans KR';
+            ctx.textAlign = 'center';
+            ctx.fillText('준비가 끝나면 위의 시작 버튼을 누르세요!', canvas.width / 2, canvas.height / 2);
+        }
+
+        // 게임 시작 진입점
+        function startGame() {
+            document.getElementById('game-overlay').classList.add('hidden');
+            resizeCanvas();
+            
+            score = 0;
+            document.getElementById('game-score').textContent = '현재 점수: ' + score;
+
+            // 공 시작 벡터 정의 (초기화)
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 3;
+            ball.dx = 3 * (Math.random() > 0.5 ? 1 : -1);
+            ball.dy = 4;
+
+            // 패들 시작 좌표 설정
+            paddle.x = (canvas.width - paddle.width) / 2;
+
+            gameRunning = true;
+            if (animationId) cancelAnimationFrame(animationId);
+            gameLoop();
+        }
+
+        // 게임 루프 엔진
+        function gameLoop() {
+            if (!gameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. 공 이동
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // 2. 물리 충돌 검사 (벽 좌우)
+            if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+                ball.dx = -ball.dx;
+                // 미세한 공 속도 탈출 처리
+                if (ball.x - ball.radius < 0) ball.x = ball.radius;
+                else ball.x = canvas.width - ball.radius;
+            }
+
+            // 3. 물리 충돌 검사 (벽 상단)
+            if (ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+                ball.y = ball.radius;
+            }
+
+            // 4. 패들 상면 충돌 검사
+            const paddleY = canvas.height - paddle.height - 15;
+            if (ball.y + ball.radius >= paddleY && ball.y - ball.radius <= paddleY + paddle.height) {
+                if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width) {
+                    ball.dy = -Math.abs(ball.dy); // 위로 튕기기
+                    ball.y = paddleY - ball.radius;
+                    
+                    // 점수 획득 및 미세 가속
+                    score++;
+                    document.getElementById('game-score').textContent = '현재 점수: ' + score;
+                    ball.dx *= 1.05;
+                    ball.dy *= 1.05;
+                }
+            }
+
+            // 5. 게임 오버 검사 (하단 낙하)
+            if (ball.y + ball.radius > canvas.height) {
+                gameOver();
+                return;
+            }
+
+            // 6. 렌더링 - 공 그리기
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#2563EB'; // 브랜드 액센트 컬러
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#2563EB';
+            ctx.fill();
+            ctx.closePath();
+            ctx.shadowBlur = 0; // 그림자 리셋
+
+            // 7. 렌더링 - 패들 그리기
+            ctx.beginPath();
+            ctx.roundRect(paddle.x, canvas.height - paddle.height - 15, paddle.width, paddle.height, 4);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fill();
+            ctx.closePath();
+
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // 게임 오버 처리
+        function gameOver() {
+            gameRunning = false;
+            cancelAnimationFrame(animationId);
+            
+            // 최고 점수 갱신
+            if (score > highScore) {
+                highScore = score;
+                document.getElementById('game-best').textContent = '최고 점수: ' + highScore;
+            }
+
+            // 오버레이 노출
+            document.getElementById('overlay-title').textContent = '게임 오버! 아쉬워요 😢';
+            document.getElementById('overlay-desc').textContent = `최종 튕기기 점수: ${score}회! 다시 도전해서 최고의 집중력을 발휘해 보세요.`;
+            document.getElementById('game-overlay').classList.remove('hidden');
+        }
+
+        // 초기 로드 시 캔버스 설정
+        window.onload = function() {
+            resizeCanvas();
+            drawStaticScene();
+        }
+    </script>
+</body>
+</html>
