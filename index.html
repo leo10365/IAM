@@ -12,6 +12,13 @@
     <script>
         tailwind.config = {
             theme: {
+                screens: {
+                    'xs': '400px',
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                },
                 extend: {
                     colors: {
                         brand: {
@@ -41,21 +48,36 @@
         html {
             scroll-behavior: smooth;
         }
+        /* 스크롤바 커스텀 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F0F4F8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-brand-accent selection:text-white">
 
-    <!-- 1. 네비게이션 헤더 -->
+    <!-- 1. 네비게이션 헤더 (모바일 높이 및 고정 레이아웃 최적화) -->
     <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-border">
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
             <a href="#" class="flex items-center gap-2">
                 <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center font-bold text-lg text-white">
                     💬
                 </div>
-                <span class="font-bold text-lg tracking-tight text-brand-text">지극히 주관적인 웹툰 방</span>
+                <span class="font-bold text-base sm:text-lg tracking-tight text-brand-text truncate max-w-[180px] sm:max-w-none">지극히 주관적인 웹툰 방</span>
             </a>
             
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 sm:gap-4">
                 <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-brand-text">
                     <a href="#intro" class="hover:text-brand-accent transition">소개</a>
                     <a href="#strength" class="hover:text-brand-accent transition">매력포인트</a>
@@ -67,67 +89,67 @@
                     <span class="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-bold flex items-center gap-1">
                         👑 관리자 모드
                     </span>
-                    <button onclick="logoutAdmin()" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition">
+                    <button onclick="logoutAdmin()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition">
                         로그아웃
                     </button>
                 </div>
 
-                <!-- 나만 아는 비밀의 관리자 로그인 입구 (아주 심플한 자물쇠 아이콘) -->
-                <button onclick="openLoginModal()" id="btn-secret-lock" class="p-2 text-slate-300 hover:text-brand-accent transition" title="관리자 로그인">
+                <!-- 나만 아는 비밀의 관리자 로그인 입구 (아주 심플한 열쇠 아이콘, 터치 타겟 여유있게 패딩 부여) -->
+                <button onclick="openLoginModal()" id="btn-secret-lock" class="p-3 text-slate-300 hover:text-brand-accent transition flex items-center justify-center" title="관리자 로그인">
                     🔑
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- 2. 히어로 섹션 -->
-    <section id="intro" class="max-w-6xl mx-auto px-4 pt-12 pb-16 md:py-24 flex flex-col md:flex-row items-center gap-12">
-        <div class="flex-1 space-y-6 text-center md:text-left">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-brand-accent rounded-full text-xs font-semibold tracking-wide">
+    <!-- 2. 히어로 섹션 (모바일 대응 패딩 및 카드 레이아웃 최적화) -->
+    <section id="intro" class="max-w-6xl mx-auto px-4 pt-8 pb-12 sm:pt-12 sm:pb-16 md:py-24 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+        <div class="flex-1 space-y-5 sm:space-y-6 text-center md:text-left w-full">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-100 text-brand-accent rounded-full text-xs font-semibold tracking-wide">
                 <span>🛡️</span> 광고 ZERO 청정구역
             </div>
             
-            <!-- 캐치프레이즈 -->
-            <h1 class="text-3xl sm:text-4.5xl font-black leading-tight text-brand-text tracking-tight">
+            <!-- 캐치프레이즈 (모바일 줄바꿈 최소화) -->
+            <h1 class="text-2.5xl sm:text-3.5xl md:text-4.5xl font-black leading-tight text-brand-text tracking-tight">
                 생각 없이 읽기 딱 좋은,<br class="hidden sm:inline">
                 <span class="text-brand-accent underline decoration-wavy decoration-2 underline-offset-4">광고 없는 찐 한줄평</span> 웹툰
             </h1>
             
             <!-- 스토리텔링 설명 -->
-            <div class="bg-white p-6 rounded-2xl border border-brand-border shadow-sm text-left relative overflow-hidden">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border shadow-sm text-left relative overflow-hidden">
                 <div class="absolute -top-6 -right-6 w-16 h-16 bg-brand-bg rounded-full flex items-center justify-center text-2xl text-slate-300 pointer-events-none">
                     ”
                 </div>
-                <h3 class="text-xs font-bold text-brand-accent mb-2 uppercase tracking-widest">나의 고백 💬</h3>
-                <p class="text-sm leading-relaxed text-brand-muted font-medium">
+                <h3 class="text-xs font-bold text-brand-accent mb-1 uppercase tracking-widest">나의 고백 💬</h3>
+                <p class="text-[13px] sm:text-sm leading-relaxed text-brand-muted font-medium">
                     "저는 웹툰을 엄청 많이 보거나 깊게 분석하는 전문가는 아니에요. 하지만 제가 끝까지 본 몇 안 되는 작품들만큼은 진짜 보장합니다. 광고 없이, 딱 3초 만에 훑어보는 저만의 솔직한 한줄평과 별점 가이드. 여기서 가볍게 골라 가세요!"
                 </p>
             </div>
 
             <!-- 메인 CTA 버튼 그룹 -->
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                <a href="#recommendations" class="px-6 py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded-xl shadow-lg shadow-blue-500/10 transition transform hover:-translate-y-0.5 text-sm">
+            <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+                <a href="#recommendations" class="w-full sm:w-auto text-center px-6 py-3 bg-brand-accent hover:bg-brand-accentHover text-white font-bold rounded-xl shadow-lg shadow-blue-500/10 transition text-sm">
                     🎯 추천 리스트 쓱 훑어보기
                 </a>
             </div>
         </div>
 
-        <!-- 이미지 대체용 비주얼 요소 (메인 아트워크 대용 일러스트 카드) -->
+        <!-- 이미지 대체용 비주얼 요소 (모바일에서도 가로세로 적절히 맞도록 aspect 비율 조정) -->
         <div class="flex-1 w-full max-w-md">
-            <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col justify-between">
+            <div class="relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl overflow-hidden aspect-[4/3] flex flex-col justify-between">
                 <!-- 배경 장식용 원 -->
                 <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-xl"></div>
                 <div class="absolute left-10 top-10 w-24 h-24 bg-blue-400/20 rounded-full blur-lg"></div>
 
                 <div class="flex justify-between items-start">
-                    <span class="text-sm bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm font-semibold">My Spot 📍</span>
-                    <span class="text-3xl">🍿</span>
+                    <span class="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm font-semibold">My Spot 📍</span>
+                    <span class="text-2xl sm:text-3xl">🍿</span>
                 </div>
 
                 <div class="space-y-2 relative z-10">
-                    <p class="text-xs text-blue-200 uppercase tracking-widest font-bold">Today's Pick</p>
-                    <h3 class="text-2xl font-bold font-point">주말 순삭 보장 아지트</h3>
-                    <p class="text-xs text-blue-100 leading-relaxed">
+                    <p class="text-[10px] text-blue-200 uppercase tracking-widest font-bold">Today's Pick</p>
+                    <h3 class="text-xl sm:text-2xl font-bold font-point">주말 순삭 보장 아지트</h3>
+                    <p class="text-[11px] sm:text-xs text-blue-100 leading-relaxed">
                         복잡하고 피곤한 하루 끝, 어떤 웹툰을 볼지 고민하며 시간 버리지 마세요. 검증된 소수정예만 모아두었습니다.
                     </p>
                 </div>
@@ -135,43 +157,43 @@
         </div>
     </section>
 
-    <!-- 3. 강점 카드 (3대 매력포인트) -->
-    <section id="strength" class="bg-white py-16 border-y border-brand-border">
+    <!-- 3. 강점 카드 (3대 매력포인트 - 모바일 1열, 데스크톱 3열 변경) -->
+    <section id="strength" class="bg-white py-12 sm:py-16 border-y border-brand-border">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center max-w-lg mx-auto mb-12 space-y-2">
-                <h2 class="text-2xl font-black text-brand-text">이곳이 특별한 3가지 이유</h2>
-                <p class="text-xs text-brand-muted">광고 가득한 블로그와 뻔한 순위표에 지친 당신을 위한 맞춤형 쉼터입니다.</p>
+            <div class="text-center max-w-lg mx-auto mb-10 sm:mb-12 space-y-1.5">
+                <h2 class="text-xl sm:text-2xl font-black text-brand-text">이곳이 특별한 3가지 이유</h2>
+                <p class="text-xs text-brand-muted px-2">광고 가득한 블로그와 뻔한 순위표에 지친 당신을 위한 맞춤형 쉼터입니다.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 <!-- 강점 1 -->
-                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
                         🎯
                     </div>
-                    <h3 class="text-base font-bold text-brand-text">소수정예 장르별 셀렉숍</h3>
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text">소수정예 장르별 셀렉숍</h3>
                     <p class="text-xs text-brand-muted leading-relaxed">
                         수만 개의 작품 중 헤매지 마세요. 장르별로 내가 직접 끝까지 다 보고 확실하게 재미를 느낀 '인생작'만 가려서 깔끔하게 소개합니다.
                     </p>
                 </div>
 
                 <!-- 강점 2 -->
-                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
                         📝
                     </div>
-                    <h3 class="text-base font-bold text-brand-text">내 맘대로 가벼운 별점 & 한줄평</h3>
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text">내 맘대로 가벼운 별점 & 한줄평</h3>
                     <p class="text-xs text-brand-muted leading-relaxed">
                         길고 지루한 시놉시스나 스포일러는 전부 뺐습니다. 오직 직관적인 한줄평과 내 기준 별점만 제공하여 3초 만에 선택할 수 있게 돕습니다.
                     </p>
                 </div>
 
                 <!-- 강점 3 -->
-                <div class="bg-brand-bg p-6 rounded-2xl border border-brand-border space-y-4 hover:shadow-md transition">
-                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-2xl font-bold">
+                <div class="bg-brand-bg p-5 sm:p-6 rounded-2xl border border-brand-border space-y-3 hover:shadow-sm transition">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-100 text-brand-accent flex items-center justify-center text-xl sm:text-2xl font-bold">
                         🍀
                     </div>
-                    <h3 class="text-base font-bold text-brand-text">부담 없이 쓱 훑어보는 아지트</h3>
+                    <h3 class="text-sm sm:text-base font-bold text-brand-text">부담 없이 쓱 훑어보는 아지트</h3>
                     <p class="text-xs text-brand-muted leading-relaxed">
                         회원가입도, 유도 광고도 없습니다. 언제든 쉬는 시간 10분 동안 편하게 놀러 와서 스마트폰 화면 넘기듯 슥 훑어보고 나가는 나만의 주머니 속 아지트입니다.
                     </p>
@@ -181,47 +203,47 @@
     </section>
 
     <!-- 4. 웹툰 추천 리스트 및 필터 섹션 -->
-    <section id="recommendations" class="max-w-6xl mx-auto px-4 py-16 space-y-8">
+    <section id="recommendations" class="max-w-6xl mx-auto px-4 py-12 sm:py-16 space-y-6 sm:space-y-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div class="space-y-1">
-                <h2 class="text-2xl font-black text-brand-text">지극히 주관적인 추천 목록</h2>
+            <div class="space-y-1 text-center md:text-left">
+                <h2 class="text-xl sm:text-2xl font-black text-brand-text">지극히 주관적인 추천 목록</h2>
                 <p class="text-xs text-brand-muted">장르 탭을 눌러 평점과 생생한 한줄평을 모아 보세요.</p>
             </div>
             
-            <!-- 장르 필터 탭 -->
-            <div class="flex flex-wrap gap-2" role="tablist">
-                <button onclick="filterGenre('all')" id="btn-genre-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition">전체보기</button>
-                <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🗡️ 판타지/액션</button>
-                <button onclick="filterGenre('romance')" id="btn-genre-romance" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🏫 로맨스/일상</button>
-                <button onclick="filterGenre('thriller')" id="btn-genre-thriller" class="px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🧠 개그/스릴러</button>
+            <!-- 장르 필터 탭 (모바일에서 좌우 스크롤 가능하도록 터치 스와이프 슬라이더 최적화) -->
+            <div class="flex overflow-x-auto pb-1 sm:pb-0 gap-2 scrollbar-none snap-x -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist">
+                <button onclick="filterGenre('all')" id="btn-genre-all" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition">전체보기</button>
+                <button onclick="filterGenre('fantasy')" id="btn-genre-fantasy" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🗡️ 판타지/액션</button>
+                <button onclick="filterGenre('romance')" id="btn-genre-romance" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🏫 로맨스/일상</button>
+                <button onclick="filterGenre('thriller')" id="btn-genre-thriller" class="snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition">🧠 개그/스릴러</button>
             </div>
         </div>
 
-        <!-- 추천 웹툰 카드 그리드 -->
-        <div id="webtoon-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 추천 웹툰 카드 그리드 (모바일 1열, 데스크톱 2열) -->
+        <div id="webtoon-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             <!-- 자바스크립트를 사용하여 초기 고정 데이터와 추가 등록된 데이터가 결합하여 그려집니다. -->
         </div>
     </section>
 
     <!-- 5. 관리자 전용 웹툰 등록 폼 (평소에는 'hidden' 처리되어 일반 방문자에게 완벽 차단됨) -->
-    <section id="add-section" class="hidden bg-slate-100 border-t border-brand-border py-16 transition-all duration-300">
-        <div class="max-w-2xl mx-auto px-4 text-center space-y-6">
-            <span class="text-3xl">📝</span>
-            <h2 class="text-2xl font-black text-brand-text">새 작품 아지트에 기록하기 (관리자용)</h2>
-            <p class="text-xs text-brand-muted leading-relaxed">
+    <section id="add-section" class="hidden bg-slate-100 border-t border-brand-border py-12 sm:py-16 transition-all duration-300">
+        <div class="max-w-2xl mx-auto px-4 text-center space-y-4 sm:space-y-6">
+            <span class="text-2xl sm:text-3xl">📝</span>
+            <h2 class="text-xl sm:text-2xl font-black text-brand-text">새 작품 아지트에 기록하기 (관리자용)</h2>
+            <p class="text-xs text-brand-muted leading-relaxed max-w-md mx-auto px-2">
                 현재 관리자 자격으로 로그인하셨습니다. 이곳에 입력하신 새로운 인생 웹툰은 실시간으로 저장되며, 새로고침해도 안전하게 영구 저장됩니다.
             </p>
 
             <!-- 사용자 참여 양식 -->
-            <form onsubmit="handleNewWebtoonSubmit(event)" class="bg-white p-6 rounded-2xl border border-brand-border text-left shadow-lg space-y-4">
+            <form onsubmit="handleNewWebtoonSubmit(event)" class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border text-left shadow-lg space-y-4">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-brand-text mb-1" for="new-title">웹툰 제목</label>
-                        <input type="text" id="new-title" required placeholder="예: 신의 탑, 대학일기" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <input type="text" id="new-title" required placeholder="예: 신의 탑, 대학일기" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-brand-text mb-1" for="new-genre">장르 분류</label>
-                        <select id="new-genre" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <select id="new-genre" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="fantasy">🗡️ 판타지/액션</option>
                             <option value="romance">🏫 로맨스/일상</option>
                             <option value="thriller">🧠 개그/스릴러</option>
@@ -232,7 +254,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-brand-text mb-1" for="new-rating">나의 솔직 별점</label>
-                        <select id="new-rating" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <select id="new-rating" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="⭐⭐⭐⭐⭐ (5.0)">⭐⭐⭐⭐⭐ (5.0)</option>
                             <option value="⭐⭐⭐⭐⭐ (4.8)">⭐⭐⭐⭐⭐ (4.8)</option>
                             <option value="⭐⭐⭐⭐⭐ (4.5)">⭐⭐⭐⭐⭐ (4.5)</option>
@@ -242,60 +264,60 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-brand-text mb-1" for="new-status">연재 여부</label>
-                        <select id="new-status" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                        <select id="new-status" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                             <option value="완결작">완결작</option>
                             <option value="연재중">연재중</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-brand-text mb-1" for="new-badge">인상깊은 뱃지</label>
-                        <input type="text" id="new-badge" placeholder="예: 꿀잼보장, 연출예술" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent text-center">
+                        <input type="text" id="new-badge" placeholder="예: 꿀잼보장, 연출예술" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent text-center">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-brand-text mb-1" for="new-tags">해시태그 (쉼표로 구분)</label>
-                    <input type="text" id="new-tags" placeholder="예: 먼치킨, 감동, 몰입도최강" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    <input type="text" id="new-tags" placeholder="예: 먼치킨, 감동, 몰입도최강" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-brand-text mb-1" for="new-image">커버 이미지 주소 (선택)</label>
-                    <input type="url" id="new-image" placeholder="https://images.unsplash.com/... (비워두면 이모지로 자동 렌더링)" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                    <input type="url" id="new-image" placeholder="https://images.unsplash.com/... (비워두면 이모지로 자동 렌더링)" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-brand-text mb-1" for="new-opinion">주인장의 날것 그대로 한줄평</label>
-                    <textarea id="new-opinion" rows="3" required placeholder="꾸미지 않은 나의 진짜 솔직한 감상을 자유롭게 작성해 보세요!" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
+                    <textarea id="new-opinion" rows="3" required placeholder="꾸미지 않은 나의 진짜 솔직한 감상을 자유롭게 작성해 보세요!" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent resize-none"></textarea>
                 </div>
                 
-                <button type="submit" class="w-full py-3 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl shadow-md transition">
+                <button type="submit" class="w-full py-3 sm:py-3.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-xl shadow-md transition">
                     내 서재에 정식 등록하기 🚀
                 </button>
             </form>
         </div>
     </section>
 
-    <!-- 6. 비밀 로그인 팝업 모달창 -->
-    <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden">
-        <div class="bg-white p-6 rounded-2xl border border-brand-border w-full max-w-sm shadow-2xl space-y-4">
+    <!-- 6. 비밀 로그인 팝업 모달창 (모바일 터치 및 화면 너비 맞춤) -->
+    <div id="login-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-brand-border w-full max-w-sm shadow-2xl space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-sm font-bold text-brand-text flex items-center gap-1.5">
                     <span>🔑</span> 관리자 권한 확인
                 </h3>
-                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-brand-text">✕</button>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-brand-text p-2">✕</button>
             </div>
-            <p class="text-[11px] text-brand-muted">
+            <p class="text-[11px] text-brand-muted leading-relaxed">
                 이곳은 주인장의 개인 서재 관리 구역입니다. 관리용 비밀번호를 입력해 활성화해 주세요.
             </p>
             <div>
                 <label class="block text-[10px] font-bold text-brand-text mb-1" for="admin-password">비밀번호</label>
-                <input type="password" id="admin-password" placeholder="비밀번호를 입력하세요 (기본: 1234)" class="w-full px-3 py-2 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                <input type="password" id="admin-password" placeholder="비밀번호를 입력하세요 (기본: 1234)" class="w-full px-3 py-2.5 border border-brand-border rounded-xl text-xs bg-brand-bg text-brand-text focus:outline-none focus:ring-1 focus:ring-brand-accent">
             </div>
             <div class="flex gap-2">
-                <button onclick="closeLoginModal()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+                <button onclick="closeLoginModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
                     취소
                 </button>
-                <button onclick="authenticateAdmin()" class="flex-1 py-2 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-lg shadow-sm transition">
+                <button onclick="authenticateAdmin()" class="flex-1 py-2.5 bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold rounded-lg shadow-sm transition">
                     인증하기
                 </button>
             </div>
@@ -303,7 +325,7 @@
     </div>
 
     <!-- 임시 알림창 토스트 알림을 위한 마크업 -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-brand-text text-white px-4 py-3 rounded-xl border border-brand-border shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div id="toast" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-brand-text text-white px-4 py-3 rounded-xl border border-brand-border shadow-xl text-xs font-semibold z-50 transition-opacity duration-300 opacity-0 pointer-events-none text-center sm:text-left">
         성공적으로 전송되었습니다!
     </div>
 
@@ -314,7 +336,7 @@
             <span class="font-bold text-brand-text">광고 ZERO 100% 솔직 청정 구역</span>
         </div>
         <p>© 2026 지극히 주관적인 웹툰 방. All rights reserved.</p>
-        <p class="text-[10px] text-slate-400">이곳의 모든 추천은 지극히 개인적이며, 어떠한 대가성 협찬이나 광고 수익을 포함하고 있지 않습니다.</p>
+        <p class="text-[10px] text-slate-400 px-4">이곳의 모든 추천은 지극히 개인적이며, 어떠한 대가성 협찬이나 광고 수익을 포함하고 있지 않습니다.</p>
     </footer>
 
     <!-- 자바스크립트 로직 (필터 및 관리 시스템 전체) -->
@@ -414,7 +436,7 @@
             renderWebtoons();
         }
 
-        // 2. 통합 웹툰 카드 렌더링 처리
+        // 2. 통합 웹툰 카드 렌더링 처리 (반응형 320px 모바일 화면 레이아웃 최적화)
         function renderWebtoons() {
             const grid = document.getElementById('webtoon-grid');
             grid.innerHTML = '';
@@ -427,9 +449,9 @@
                     return;
                 }
 
-                // 카드 엘리먼트 생성
+                // 카드 엘리먼트 생성 (모바일 flex-col 대응)
                 const card = document.createElement('div');
-                card.className = `webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex gap-4 hover:shadow-md transition relative`;
+                card.className = `webtoon-card bg-white p-5 rounded-2xl border border-brand-border flex flex-col xs:flex-row gap-4 hover:shadow-md transition relative`;
                 
                 // 장르 배지 설정
                 let genreText = '기타';
@@ -453,31 +475,31 @@
 
                 // 삭제 버튼 가시성 제어 (로그인한 관리자 상태 + 내가 직접 등록한 웹툰인 경우에만 렌더링)
                 const deleteBtnHTML = (isAdminMode && item.isCustom) 
-                    ? `<button onclick="deleteWebtoon('${item.id}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[10px] font-bold rounded-lg transition">🗑️ 삭제</button>`
+                    ? `<button onclick="deleteWebtoon('${item.id}')" class="absolute bottom-4 right-4 px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-[10px] font-bold rounded-lg transition z-10">🗑️ 삭제</button>`
                     : ``;
 
                 // 해시태그 가공
                 const tagsHTML = item.tags ? item.tags.map(t => t.startsWith('#') ? t : '#' + t).join(' ') : '';
 
                 card.innerHTML = `
-                    <div class="w-20 h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-slate-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
+                    <div class="w-full xs:w-20 h-32 xs:h-28 rounded-xl flex-shrink-0 relative overflow-hidden bg-slate-100 flex items-center justify-center text-3xl shadow-inner border border-brand-border">
                         ${thumbnailHTML}
                         <span class="absolute top-1.5 left-1.5 text-[9px] font-bold px-1.5 py-0.5 ${genreColorClass} text-white rounded shadow-sm">${genreText}</span>
                     </div>
-                    <div class="flex flex-col justify-between flex-grow pr-2">
+                    <div class="flex flex-col justify-between flex-grow pr-2 pb-6 xs:pb-0">
                         <div>
-                            <div class="flex items-center justify-between">
-                                <h4 class="font-bold text-sm text-brand-text">${item.title}</h4>
-                                ${item.badge ? `<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold">${item.badge}</span>` : ''}
+                            <div class="flex items-center justify-between gap-2">
+                                <h4 class="font-bold text-sm text-brand-text truncate">${item.title}</h4>
+                                ${item.badge ? `<span class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold whitespace-nowrap">${item.badge}</span>` : ''}
                             </div>
                             <div class="text-amber-500 text-xs font-bold mt-1">${item.rating}</div>
                             <p class="text-[12px] text-brand-muted mt-2 leading-relaxed">
                                 ${item.review}
                             </p>
                         </div>
-                        <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between items-center">
-                            <span>${tagsHTML}</span>
-                            <span class="${item.status === '완결작' ? 'text-brand-accent' : 'text-green-600'} font-bold">${item.status}</span>
+                        <div class="text-[10px] text-brand-muted font-medium mt-3 pt-2 border-t border-brand-bg flex justify-between items-center gap-1">
+                            <span class="truncate max-w-[140px] sm:max-w-none">${tagsHTML}</span>
+                            <span class="${item.status === '완결작' ? 'text-brand-accent' : 'text-green-600'} font-bold whitespace-nowrap">${item.status}</span>
                         </div>
                         ${deleteBtnHTML}
                     </div>
@@ -486,7 +508,7 @@
             });
         }
 
-        // 3. 장르 필터링 기능
+        // 3. 장르 필터링 기능 (모바일 스크롤 중앙 정렬 적용)
         function filterGenre(genre) {
             currentGenreFilter = genre;
             renderWebtoons();
@@ -495,9 +517,11 @@
             buttons.forEach(b => {
                 const btn = document.getElementById('btn-genre-' + b);
                 if (b === genre) {
-                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition";
+                    btn.className = "snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-brand-accent text-white shadow-sm transition";
+                    // 모바일 탭 터치 시 터치한 요소를 슬라이더 가로 중앙으로 부드럽게 스크롤링
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 } else {
-                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition";
+                    btn.className = "snap-start flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold bg-white text-brand-text border border-brand-border hover:bg-brand-bg transition";
                 }
             });
         }
